@@ -4,7 +4,18 @@ import android.view.View
 import com.xwray.groupie.viewbinding.BindableItem
 import jp.cordea.daggerhiltdemo.databinding.UserListItemBinding
 
-class UserListItemViewModel()
+class UserListItemViewModel(
+    firstName: String,
+    lastName: String,
+    val title: String
+) {
+    companion object {
+        fun from(user: User) =
+            UserListItemViewModel(user.firstName, user.lastName, user.title)
+    }
+
+    val name = "$firstName $lastName"
+}
 
 class UserListItem(
     private val viewModel: UserListItemViewModel
