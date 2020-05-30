@@ -17,6 +17,7 @@ class UserRemoteDataSource @Inject constructor() {
             User(
                 faker.name.firstName(),
                 faker.name.lastName(),
+                faker.name.title(),
                 faker.phoneNumber.phoneNumber(),
                 faker.internet.safeEmail(),
                 faker.company.name()
