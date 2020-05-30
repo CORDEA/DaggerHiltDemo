@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-class FirstViewModel private constructor(
+class UsersViewModel private constructor(
     handle: SavedStateHandle,
     repository: UserRepository
 ) : ViewModel() {
@@ -27,7 +27,7 @@ class FirstViewModel private constructor(
                 key: String,
                 modelClass: Class<T>,
                 handle: SavedStateHandle
-            ): T = FirstViewModel(handle, repository) as T
+            ): T = UsersViewModel(handle, repository) as T
         }
     }
 

@@ -10,24 +10,24 @@ import androidx.lifecycle.Observer
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import jp.cordea.daggerhiltdemo.databinding.FragmentFirstBinding
+import jp.cordea.daggerhiltdemo.databinding.UsersFragmentBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 @AndroidEntryPoint
 @ExperimentalCoroutinesApi
-class FirstFragment : Fragment() {
+class UsersFragment : Fragment() {
     @Inject
-    lateinit var factory: FirstViewModel.Factory
+    lateinit var factory: UsersViewModel.Factory
 
-    private val viewModel by viewModels<FirstViewModel> { factory.create() }
+    private val viewModel by viewModels<UsersViewModel> { factory.create() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentFirstBinding.inflate(inflater, container, false)
+        val binding = UsersFragmentBinding.inflate(inflater, container, false)
         val adapter = GroupAdapter<GroupieViewHolder>()
         binding.recyclerView.adapter = adapter
         viewModel.items.observe(viewLifecycleOwner, Observer { items ->
