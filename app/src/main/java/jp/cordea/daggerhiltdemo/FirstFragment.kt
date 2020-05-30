@@ -7,10 +7,17 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FirstFragment : Fragment() {
+    @Inject
+    lateinit var factory: FirstViewModel.Factory
+
+    private val viewModel by viewModels<FirstViewModel> { factory.create() }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
