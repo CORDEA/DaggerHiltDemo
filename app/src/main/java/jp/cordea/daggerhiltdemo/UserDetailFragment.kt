@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import jp.cordea.daggerhiltdemo.databinding.UserDetailFragmentBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,6 +19,7 @@ class UserDetailFragment : Fragment() {
     lateinit var factory: UserDetailViewModel.Factory
 
     private val viewModel by viewModels<UserDetailViewModel> { factory.create() }
+    private val args by navArgs<UserDetailFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,5 +33,6 @@ class UserDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.init(args.user)
     }
 }
