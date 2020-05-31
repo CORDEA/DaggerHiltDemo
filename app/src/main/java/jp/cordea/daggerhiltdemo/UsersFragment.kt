@@ -31,7 +31,7 @@ class UsersFragment : Fragment() {
         val adapter = GroupAdapter<GroupieViewHolder>()
         binding.recyclerView.adapter = adapter
         viewModel.items.observe(viewLifecycleOwner, Observer { items ->
-            adapter.update(items.map { UserListItem(UserListItemViewModel.from(it)) })
+            adapter.update(items.map { UserListItem(viewModel, it) })
         })
         return binding.root
     }

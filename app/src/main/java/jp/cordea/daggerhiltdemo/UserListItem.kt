@@ -1,23 +1,25 @@
 package jp.cordea.daggerhiltdemo
 
+import android.os.Parcelable
 import android.view.View
 import com.xwray.groupie.viewbinding.BindableItem
 import jp.cordea.daggerhiltdemo.databinding.UserListItemBinding
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 class UserListItemViewModel(
-    firstName: String,
-    lastName: String,
-    val title: String
-) {
-    companion object {
-        fun from(user: User) =
-            UserListItemViewModel(user.firstName, user.lastName, user.title)
+    val user: User
+) : Parcelable {
+    interface OnClickListener {
+        fun onItemClick(user: User)
     }
 
-    val name = "$firstName $lastName"
+    val name get() = "${user.firstName} ${user.lastName}"
+    val title get() = user.title
 }
 
 class UserListItem(
+    private val listener: UserListItemViewModel.OnClickListener,
     private val viewModel: UserListItemViewModel
 ) : BindableItem<UserListItemBinding>() {
     override fun initializeViewBinding(view: View): UserListItemBinding =
@@ -27,5 +29,8 @@ class UserListItem(
 
     override fun bind(viewBinding: UserListItemBinding, position: Int) {
         viewBinding.viewModel = viewModel
+        viewBinding.root.setOnClickListener {
+            listener.onItemClick(viewModel.user)
+        }
     }
 }

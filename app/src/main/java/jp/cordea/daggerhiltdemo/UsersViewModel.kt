@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
@@ -13,7 +14,7 @@ import javax.inject.Inject
 class UsersViewModel private constructor(
     handle: SavedStateHandle,
     repository: UserRepository
-) : ViewModel() {
+) : ViewModel(), UserListItemViewModel.OnClickListener {
     class Factory @Inject constructor(
         private val fragment: Fragment,
         private val repository: UserRepository
@@ -31,14 +32,18 @@ class UsersViewModel private constructor(
         }
     }
 
-    private val _items = handle.getLiveData<List<User>>("items")
-    val items: LiveData<List<User>> get() = _items
+    private val _items = handle.getLiveData<List<UserListItemViewModel>>("items")
+    val items: LiveData<List<UserListItemViewModel>> get() = _items
 
     init {
         repository
             .findAll(true)
+            .map { users -> users.map { UserListItemViewModel(it) } }
             .flowOn(Dispatchers.IO)
             .onEach { _items.value = it }
             .launchIn(viewModelScope)
+    }
+
+    override fun onItemClick(user: User) {
     }
 }
