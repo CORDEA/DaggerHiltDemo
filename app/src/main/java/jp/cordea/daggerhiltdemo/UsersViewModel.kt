@@ -35,6 +35,9 @@ class UsersViewModel private constructor(
     private val _items = handle.getLiveData<List<UserListItemViewModel>>("items")
     val items: LiveData<List<UserListItemViewModel>> get() = _items
 
+    private val _events = handle.getLiveData<Notifiable<Event>>("events")
+    val events: LiveData<Notifiable<Event>> get() = _events
+
     init {
         repository
             .findAll(true)
@@ -45,5 +48,10 @@ class UsersViewModel private constructor(
     }
 
     override fun onItemClick(user: User) {
+        _events.value = Notifiable(Event.ClickedItem(user))
+    }
+
+    sealed class Event {
+        class ClickedItem(val user: User) : Event()
     }
 }
