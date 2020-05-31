@@ -27,11 +27,11 @@ class UserDetailViewModel private constructor(
         }
     }
 
-    private val title = handle.getLiveData("title", "")
-    private val phoneNumber = handle.getLiveData("phoneNumber", "")
-    private val emailAddress = handle.getLiveData("emailAddress", "")
-    private val jobTitle = handle.getLiveData("jobTitle", "")
-    private val company = handle.getLiveData("company", "")
+    val title = handle.getLiveData("title", "")
+    val phoneNumber = handle.getLiveData("phoneNumber", "")
+    val emailAddress = handle.getLiveData("emailAddress", "")
+    val jobTitle = handle.getLiveData("jobTitle", "")
+    val company = handle.getLiveData("company", "")
 
     fun init(user: User) {
         title.value = "${user.firstName} ${user.lastName}"
