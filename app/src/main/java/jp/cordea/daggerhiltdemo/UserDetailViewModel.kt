@@ -4,15 +4,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class UserDetailViewModel private constructor(
-    private val handle: SavedStateHandle,
-    private val repository: UserRepository
+    handle: SavedStateHandle
 ) : ViewModel() {
     class Factory @Inject constructor(
-        private val fragment: Fragment,
-        private val repository: UserRepository
+        private val fragment: Fragment
     ) {
         fun create() = object : AbstractSavedStateViewModelFactory(
             fragment,
@@ -23,7 +23,21 @@ class UserDetailViewModel private constructor(
                 key: String,
                 modelClass: Class<T>,
                 handle: SavedStateHandle
-            ): T = UserDetailViewModel(handle, repository) as T
+            ): T = UserDetailViewModel(handle) as T
         }
+    }
+
+    private val title = handle.getLiveData("title", "")
+    private val phoneNumber = handle.getLiveData("phoneNumber", "")
+    private val emailAddress = handle.getLiveData("emailAddress", "")
+    private val jobTitle = handle.getLiveData("jobTitle", "")
+    private val company = handle.getLiveData("company", "")
+
+    fun init(user: User) {
+        title.value = "${user.firstName} ${user.lastName}"
+        phoneNumber.value = user.phoneNumber
+        emailAddress.value = user.emailAddress
+        jobTitle.value = user.title
+        company.value = user.company
     }
 }
